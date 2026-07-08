@@ -1,53 +1,35 @@
-%%writefile templates/index.
 <!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Registro de Gastos</title>
+    <title>Control de Gastos</title>
 </head>
 <body>
 
-<h1>Registro de Gastos</h1>
+    <h1>Control de Gastos</h1>
 
-<form action="/agregar" method="POST">
+    <form action="/agregar" method="POST">
+        <input type="text" name="descripcion" placeholder="Descripción" required>
+        <input type="number" step="0.01" name="monto" placeholder="Monto" required>
 
-<label>Descripción:</label>
-<input type="text" name="descripcion" required>
+        <button type="submit">Agregar</button>
+    </form>
 
-<br><br>
+    <h2>Gastos registrados</h2>
 
-<label>Monto:</label>
-<input type="number" step="0.01" name="monto" required>
+    {% if gastos %}
+        <ul>
+            {% for gasto in gastos %}
+                <li>
+                    {{ gasto.descripcion }} - ${{ gasto.monto }}
+                </li>
+            {% endfor %}
+        </ul>
 
-<br><br>
+        <h3>Total gastado: ${{ total }}</h3>
 
-<button type="submit">Agregar gasto</button>
-
-</form>
-
-<hr>
-
-<h2>Lista de gastos</h2>
-
-{% if gastos %}
-
-<ul>
-
-{% for gasto in gastos %}
-
-<li>{{ gasto.descripcion }} - ${{ gasto.monto }}</li>
-
-{% endfor %}
-
-</ul>
-
-<p><strong>Total gastado: ${{ total }}</strong></p>
-
-{% else %}
-
-<p>No hay gastos registrados.</p>
-
-{% endif %}
+    {% else %}
+        <p>No hay gastos registrados.</p>
+    {% endif %}
 
 </body>
 </html>
